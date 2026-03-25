@@ -128,11 +128,11 @@ Edit `config/config.yaml` to adjust:
 
 ## TODO
 
-- [ ] Implement `nba_fetcher.py` to fetch games and team stats
-- [ ] Implement `kalshi_fetcher.py` to fetch contract prices
-- [ ] Implement `preprocess.py` to merge data sources
-- [ ] Implement feature engineering in `feature_builder.py`
-- [ ] Implement backtest simulator in `simulator.py`
+- [ ] Implement `src/data/nba_fetcher.py` to fetch games and team stats
+- [ ] Implement `src/data/kalshi_fetcher.py` to fetch contract prices
+- [ ] Implement `src/data/preprocess.py` to merge data sources
+- [ ] Implement feature engineering in `src/features/feature_builder.py`
+- [ ] Implement backtest simulator in `src/backtest/simulator.py`
 - [ ] Create exploratory notebooks for EDA
 - [ ] Add more comprehensive tests
 - [ ] Add CI/CD pipeline

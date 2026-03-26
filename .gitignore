@@ -143,6 +143,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+nba_prediction.txt
+kalshi api.txt
 
 # Spyder project settings
 .spyderproject

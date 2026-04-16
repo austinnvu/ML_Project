@@ -5,7 +5,14 @@ Fetches NBA games, team stats, and Kalshi contract prices.
 """
 
 import argparse
+import os
+import sys
 import pandas as pd
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 from src.utils.logger import get_logger
 from src.data.nba_fetcher import fetch_games, fetch_team_stats
 from src.data.kalshi_fetcher import fetch_contracts

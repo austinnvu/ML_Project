@@ -1,0 +1,135 @@
+\documentclass[sigconf]{acmart}
+
+\setcopyright{none}
+\settopmatter{printacmref=false,printfolios=true}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\settopmatter{authorsperrow=4}
+\renewcommand\authorsaddresses{}
+
+\title{Predicting NBA Game Outcomes and Identifying Mispriced Contracts in Sports Prediction Markets Using Machine Learning}
+
+\author{Noah Arooji (nun2as)}
+\authornote{}
+\affiliation{}
+
+\author{Austin Vu (tcu3wh)}
+\authornote{}
+\affiliation{}
+
+\author{Azim Abdulmajeeth (zwf8qy)}
+\authornote{}
+\affiliation{}
+
+\author{Ciaran Jones (gff7en)}
+\authornote{}
+\affiliation{}
+
+\begin{document}
+
+\begin{abstract}
+This progress report extends our original proposal on NBA game prediction in sports prediction markets. Our project scope remains unchanged. So far, we have completed the moneyline data collection and preprocessing pipeline, merged NBA team features with Kalshi market data, and implemented an initial logistic regression baseline using a chronological train/test split. On the held-out test set, this baseline achieves 71.58\% accuracy with promising probability-based metrics, providing a strong foundation for the remaining model implementations and later backtesting work.
+\end{abstract}
+
+\maketitle
+
+\section{Problem Statement}
+Sports prediction markets, such as Kalshi and Polymarket, allow participants to trade contracts on the outcomes of real-world events, including professional basketball games. These platforms operate similarly to financial exchanges. Each contract is priced between \$0 and \$1, and the price reflects the market's implied probability of an outcome occurring. For example, a contract priced at \$0.65 for a team to win implies the market believes that team has a 65\% chance of winning. As these markets grow in volume and popularity, they create an opportunity to apply machine learning to detect mispriced contracts, meaning cases where a model's estimated probability differs meaningfully from the market-implied probability.
+
+Traditional sports betting often relies on expert intuition or simple statistical models. While sportsbooks use advanced internal models to set efficient lines, prediction market prices are set by participants and may adjust more slowly to new information such as rest days, recent performance trends, or matchup-specific factors. This project aims to take advantage of potential inefficiencies by training supervised learning models to predict the true probability of NBA game outcomes, including moneyline winners and over/under totals. These predictions will then be compared to contract prices on Kalshi and Polymarket.
+
+The model inputs will include features based on team and individual statistics, and current market prices. The output will be a predicted probability for each game outcome, so that we can flag probabilities that vary significantly from the market's implied probability.
+
+\section{Literature Review}
+The application of machine learning in sports outcome prediction has been well-studied. Researchers have applied logistic regression, support vector machines, and neural networks to predict outcomes in the NBA with varying degrees of success, generally achieving classification accuracies in the range of 65--72\% depending on feature engineering and model complexity~\cite{thabtah2019, loeffelholz2009}. A common finding across the literature is that ensemble methods, particularly gradient-boosted decision trees, will outperform individual classifiers in this domain because of their ability to capture interactions between features such as pace, rest days, and home-court advantage~\cite{chen2016xgboost}.
+
+Prediction markets have also received significant attention in the economics and finance literature. Studies have shown that prediction market prices are generally well-calibrated, so a contract priced at \$0.70 wins approximately 70\% of the time~\cite{wolfers2004}. However, researchers have also identified systematic inefficiencies, including the favorite-longshot bias and slow adjustment to late-breaking information, which create opportunities for informed trading~\cite{snowberg2010}. Recent work has attempted to combine machine learning predictions with market prices to generate profitable trading strategies in both sports and political prediction markets~\cite{beal2021}.
+
+This project continues to draw on influences from both areas by using standard classification models from the machine learning curriculum to generate probability estimates, and then evaluating those estimates not only on predictive accuracy but also on simulated profitability when used to trade against prediction market prices.
+
+\section{\textcolor{red}{Dataset}}
+All data for this project is still being collected from the free, publicly available sources described in the proposal. Team-level NBA statistics are collected using the \texttt{nba\_api} Python package, which provides access to NBA.com game logs and advanced team statistics. Historical and real-time prediction market contract prices are being collected from the Kalshi API, which remains our primary source for market-implied probabilities in both training and later evaluation.
+
+So far, we have implemented the moneyline portion of the data pipeline. From \texttt{nba\_api}, we fetch both base team game logs and advanced team game logs, then engineer pregame features for each team. These features include rest days since the previous game, rolling 5-game and 10-game win percentage, rolling offensive rating, rolling defensive rating, rolling pace, and season-to-date home/away split win percentage. These features are calculated chronologically and shifted so that each row only uses information available before the game being predicted, which helps prevent leakage from future or same-game information.
+
+We then convert the team-level data into a game-level moneyline dataset in which each row corresponds to one NBA game. Each row includes the home team's feature values, the away team's feature values, metadata such as the game date and team abbreviations, and a binary target variable indicating whether the home team won. Metadata columns such as date and team names are preserved for joining and chronological splitting, but they are not used as model features.
+
+On the Kalshi side, we implemented a pipeline that accesses both historical and live market endpoints and matches moneyline markets back to NBA games using game date and team identity. This has allowed us to create a merged moneyline dataset containing 912 matched games with both NBA features and a Kalshi home-win price. For the current logistic regression baseline, however, we do not train on the Kalshi implied probability itself. Instead, the Kalshi columns are retained for later comparison and backtesting so that the baseline model is learned entirely from basketball-derived features.
+
+At this stage, we have not yet completed the over/under version of the dataset, but the moneyline data collection and merging pipeline is now functioning and provides the basis for the first round of model experiments.
+
+\section{\textcolor{red}{Algorithm}}
+We have currently implemented the logistic regression model described in the proposal as our first baseline for the moneyline task. Logistic regression remains a natural starting point because it is highly interpretable, computationally efficient, and well-suited to binary classification on structured tabular data. We use L2 regularization and standardize the numeric input features before fitting the model.
+
+The current feature set contains 14 basketball-derived numeric inputs: home and away rest days, home and away split win percentage, home and away rolling 5-game and 10-game win rate, and home and away rolling 5-game offensive rating, defensive rating, and pace. The target variable for this model is \texttt{home\_WIN}, which is 1 when the home team wins and 0 otherwise. We intentionally exclude metadata columns such as game date and team abbreviations from the model input, and we also exclude Kalshi price columns from the feature matrix so that the baseline prediction model does not simply learn the market's implied probability.
+
+In response to the proposal feedback about temporally mindful evaluation, the current implementation uses a chronological split rather than a random split. After sorting the merged moneyline dataset by game date, the earliest 80\% of games are used for training and the most recent 20\% are used for testing. This ensures that the model is always evaluated on future games that were not seen during training and better reflects the real forecasting setting of the project.
+
+The remaining planned models remain the same as in the proposal: Random Forests and Gradient-Boosted Decision Trees. These will be implemented later this week using the same moneyline dataset and the same chronological evaluation framework so that the comparison across models is consistent.
+
+\section{\textcolor{red}{Evaluation}}
+Model evaluation in the full project will still be conducted along two dimensions: predictive quality and economic value. At this progress-report stage, however, our completed results are limited to predictive quality for the logistic regression moneyline baseline. We are not yet presenting finalized ROI or trading results because the Kalshi backtesting pipeline still needs additional refinement to ensure that the market probabilities used in simulation correspond to reliable pregame prices.
+
+For predictive quality, we evaluate the logistic regression model using accuracy, ROC AUC, log-loss, and Brier score on the held-out chronological test split. The model was trained on 729 games and evaluated on 183 later games. Table~\ref{tab:logistic-results} summarizes the initial results.
+
+\begin{table}[t]
+\caption{Initial logistic regression moneyline results on the held-out chronological test split.}
+\label{tab:logistic-results}
+\begin{tabular}{lr}
+\toprule
+Metric & Value \\
+\midrule
+Training rows & 729 \\
+Test rows & 183 \\
+Number of features & 14 \\
+Accuracy & 0.7158 \\
+ROC AUC & 0.7865 \\
+Log-loss & 0.5689 \\
+Brier score & 0.1919 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These results are promising for an initial baseline. The model achieves 71.58\% accuracy on held-out games, which is within and slightly above the range cited in the literature review. The ROC AUC of 0.7865 also suggests that the model is reasonably effective at separating home wins from away wins beyond simple thresholded accuracy. Because log-loss and Brier score evaluate the quality of predicted probabilities, they are also useful indicators that the model is producing reasonably calibrated outputs, which is important for the later market-comparison stage of the project.
+
+At this stage, our baseline comparisons are still evolving. The current implemented baseline is logistic regression, and the next comparison points we plan to add are a naive home-team baseline, a market-implied probability baseline, Random Forests, and Gradient-Boosted Decision Trees. Once those are complete, we will be able to evaluate whether the more flexible nonlinear models provide a meaningful gain over logistic regression and over the market itself.
+
+\section{\textcolor{red}{Timeline}}
+The overall project scope remains unchanged, but the timeline has naturally shifted from the original proposal schedule because the proposal was submitted on February 19, 2026 and this progress report is being completed on March 26, 2026. At this point, the core moneyline data collection pipeline, preprocessing pipeline, Kalshi merge infrastructure, and initial logistic regression baseline have all been completed.
+
+Over the next several days, our immediate goal is to finalize the progress report and finish cleaning up the moneyline workflow so that the current baseline and dataset are fully documented. Later this week, we plan to implement the remaining moneyline models from the proposal, specifically Random Forests and Gradient-Boosted Decision Trees, using the same feature set and chronological split as the logistic regression baseline.
+
+After those models are in place, we will expand the evaluation stage by adding stronger baseline comparisons and refining the Kalshi market comparison and ROI simulation pipeline. Once the moneyline modeling pipeline is complete and stable, we will then extend the same framework to the over/under task and prepare the final report and presentation materials.
+
+\section{Expected Outcome}
+We expect that ensemble methods, especially gradient-boosted decision trees, will have the strongest predictive accuracy and best-calibrated probabilities, consistent with findings in the literature on tabular prediction tasks. Logistic regression should serve as a competitive and interpretable baseline, and the comparison between these two model families will help characterize whether the nonlinear feature interactions captured by tree-based ensembles provide meaningful lift over a linear model in this domain. We anticipate overall classification accuracy in the range of 65--70\%, which is consistent with prior work on NBA game prediction.
+
+More importantly, we expect to identify a subset of games where the model's predicted probability diverges meaningfully from the Kalshi contract price, and we hypothesize that a simple threshold-based trading strategy will yield positive simulated ROI on these contracts. Even if the absolute accuracy improvement over the market is modest, the project will demonstrate the full pipeline of training a probabilistic classifier, calibrating its outputs, and applying it to a real-world decision-making context in prediction markets.
+
+\begin{thebibliography}{9}
+
+\bibitem{thabtah2019}
+F.~Thabtah, L.~Zhang, and N.~Abdelhamid. 2019. NBA Game Result Prediction Using Feature Analysis and Machine Learning. \textit{Annals of Data Science}, 6(1), 103--116.
+
+\bibitem{loeffelholz2009}
+B.~Loeffelholz, E.~Bednar, and K.~Bauer. 2009. Predicting NBA Games Using Neural Networks. \textit{Journal of Quantitative Analysis in Sports}, 5(1).
+
+\bibitem{chen2016xgboost}
+T.~Chen and C.~Guestrin. 2016. XGBoost: A Scalable Tree Boosting System. In \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 785--794.
+
+\bibitem{wolfers2004}
+J.~Wolfers and E.~Zitzewitz. 2004. Prediction Markets. \textit{Journal of Economic Perspectives}, 18(2), 107--126.
+
+\bibitem{snowberg2010}
+E.~Snowberg and J.~Wolfers. 2010. Explaining the Favorite-Long Shot Bias: Is it Risk-Love or Misperceptions? \textit{Journal of Political Economy}, 118(4), 723--746.
+
+\bibitem{beal2021}
+R.~Beal, S.~Middleton, T.~Norman, and S.~Ramchurn. 2021. Combining Machine Learning and Human Experts to Predict Match Outcomes in Football: A Baseline Model. In \textit{Proceedings of the 35th AAAI Conference on Artificial Intelligence}, 15447--15451.
+
+\end{thebibliography}
+
+\end{document}

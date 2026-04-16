@@ -1,58 +1,121 @@
 """
-Backtesting simulator for trading strategy.
-
-Evaluates trading performance against Kalshi contract prices using
-a simple threshold-based strategy: trade when model probability diverges
-from market price by more than a threshold.
-
-TODO: Implement full simulator with position sizing, kelly criterion, PnL tracking.
+Backtesting helpers for the moneyline progress-report workflow.
 """
 
 import pandas as pd
+
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-def run_backtest(model, games_df, market_df, threshold=0.05, bankroll=10000):
+def simulate_betting_roi(
+    y_test,
+    y_prob_home,
+    kalshi_prob_home,
+    metadata_df=None,
+    bet_amount=10.0,
+    edge_threshold=0.05,
+):
     """
-    Run a simulated trading backtest.
-
-    Strategy:
-      - If |model_prob - market_prob| > threshold, take a trade
-      - Bet a fixed amount (or kelly-sized) on the direction of divergence
-      - Track cumulative PnL
-
-    TODO: Implement logic for:
-      - Computing expected value of divergence
-      - Position sizing (fixed or kelly)
-      - Trade execution and settlement
-      - Commission/fees
-      - Risk management
-
-    Args:
-        model: Trained model with predict_proba() method
-        games_df (pd.DataFrame): Game data with dates and results
-        market_df (pd.DataFrame): Market prices for games
-        threshold (float): Divergence threshold to trigger trade (default 0.05)
-        bankroll (float): Initial capital (default $10,000)
+    Simulate a flat betting strategy on a test set.
 
     Returns:
-        dict: Results {
-            'roi': float (return on investment as decimal),
-            'n_trades': int (number of trades),
-            'win_rate': float (% of profitable trades),
-            'pnl_series': pd.Series (cumulative PnL over time),
-            'details': pd.DataFrame (trade-level details)
-        }
+        tuple[pd.DataFrame, dict]: Trade-level results and a summary dict
     """
-    logger.info(f"Running backtest with threshold={threshold}, bankroll=${bankroll}...")
 
-    # TODO: Implement backtest logic
-    # 1. Align games_df with market_df
-    # 2. Generate predictions for each game
-    # 3. For each game, check if |pred - market_price| > threshold
-    # 4. If triggered, record trade direction and outcome
-    # 5. Compute PnL and aggregate statistics
+    sim_df = pd.DataFrame(
+        {
+            "actual_outcome": pd.Series(y_test).astype(int).reset_index(drop=True),
+            "model_prob_home": pd.Series(y_prob_home, dtype=float).reset_index(drop=True),
+            "kalshi_prob_home": pd.Series(kalshi_prob_home, dtype=float).reset_index(drop=True),
+        }
+    )
 
-    raise NotImplementedError("run_backtest() not yet implemented")
+    if metadata_df is not None:
+        metadata_df = metadata_df.reset_index(drop=True)
+        sim_df = pd.concat([metadata_df, sim_df], axis=1)
+
+    sim_df["model_prob_away"] = 1.0 - sim_df["model_prob_home"]
+    sim_df["kalshi_prob_away"] = 1.0 - sim_df["kalshi_prob_home"]
+    sim_df["home_edge"] = sim_df["model_prob_home"] - sim_df["kalshi_prob_home"]
+    sim_df["away_edge"] = sim_df["model_prob_away"] - sim_df["kalshi_prob_away"]
+    sim_df["bet_placed_on"] = pd.NA
+    sim_df["profit_loss"] = 0.0
+
+    for idx, row in sim_df.iterrows():
+        if row["home_edge"] > edge_threshold:
+            sim_df.at[idx, "bet_placed_on"] = "Home"
+            if row["actual_outcome"] == 1:
+                profit = bet_amount * (1.0 / row["kalshi_prob_home"]) - bet_amount
+                sim_df.at[idx, "profit_loss"] = profit
+            else:
+                sim_df.at[idx, "profit_loss"] = -bet_amount
+        elif row["away_edge"] > edge_threshold:
+            sim_df.at[idx, "bet_placed_on"] = "Away"
+            if row["actual_outcome"] == 0:
+                profit = bet_amount * (1.0 / row["kalshi_prob_away"]) - bet_amount
+                sim_df.at[idx, "profit_loss"] = profit
+            else:
+                sim_df.at[idx, "profit_loss"] = -bet_amount
+
+    total_bets = int(sim_df["bet_placed_on"].notna().sum())
+    total_wagered = float(total_bets * bet_amount)
+    net_profit = float(sim_df["profit_loss"].sum())
+    roi_percent = float((net_profit / total_wagered) * 100.0) if total_wagered > 0 else 0.0
+
+    summary = {
+        "total_games": int(len(sim_df)),
+        "total_bets": total_bets,
+        "total_wagered": total_wagered,
+        "net_profit": net_profit,
+        "roi_percent": roi_percent,
+    }
+
+    logger.info(
+        "Simulated %s qualifying bets across %s games for %.2f%% ROI",
+        total_bets,
+        len(sim_df),
+        roi_percent,
+    )
+
+    return sim_df, summary
+
+
+def run_backtest(model, games_df, market_df=None, threshold=0.05, bankroll=10000, bet_amount=10.0):
+    """
+    Compatibility wrapper around the flat ROI simulator.
+    """
+
+    if "kalshi_price_home_win" not in games_df.columns:
+        if market_df is None or "kalshi_price_home_win" not in market_df.columns:
+            raise ValueError("Kalshi home-win probability column is required for backtesting.")
+        aligned_df = games_df.join(market_df[["kalshi_price_home_win"]])
+    else:
+        aligned_df = games_df.copy()
+
+    if "home_WIN" not in aligned_df.columns:
+        raise ValueError("Expected home_WIN column in games_df for backtesting.")
+
+    feature_df = aligned_df.select_dtypes(include=["number", "bool"]).drop(
+        columns=["home_WIN", "kalshi_price_home_win"],
+        errors="ignore",
+    )
+    y_prob_home = model.predict_proba(feature_df)
+
+    results_df, summary = simulate_betting_roi(
+        y_test=aligned_df["home_WIN"],
+        y_prob_home=y_prob_home,
+        kalshi_prob_home=aligned_df["kalshi_price_home_win"],
+        metadata_df=aligned_df[[col for col in aligned_df.columns if col not in {"home_WIN", "kalshi_price_home_win"}]],
+        bet_amount=bet_amount,
+        edge_threshold=threshold,
+    )
+
+    return {
+        "roi": summary["roi_percent"] / 100.0,
+        "n_trades": summary["total_bets"],
+        "win_rate": float((results_df["profit_loss"] > 0).mean()) if len(results_df) else 0.0,
+        "details": results_df,
+        "bankroll": bankroll,
+    }

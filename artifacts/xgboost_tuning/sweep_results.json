@@ -1,0 +1,1759 @@
+{
+  "splits": {
+    "inner_train": 583,
+    "val": 146,
+    "test": 183
+  },
+  "results": [
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 45,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6368788966559608,
+        "log_loss": 0.6588940067655893,
+        "brier_score": 0.23327620327472687
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.6164383561643836,
+        "roc_auc": 0.6332892499527678,
+        "log_loss": 0.660083603516111,
+        "brier_score": 0.23395000398159027
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 14,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6366899678821085,
+        "log_loss": 0.6609900541793593,
+        "brier_score": 0.2343713492155075
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 48,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6313999622142452,
+        "log_loss": 0.6625440842533155,
+        "brier_score": 0.2350810319185257
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6245985263555639,
+        "log_loss": 0.6631266464392268,
+        "brier_score": 0.23568636178970337
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 59,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.631966748535802,
+        "log_loss": 0.6634401927607386,
+        "brier_score": 0.2354261875152588
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 7,
+      "val": {
+        "accuracy": 0.6301369863013698,
+        "roc_auc": 0.6480256943132439,
+        "log_loss": 0.6644503151172892,
+        "brier_score": 0.23595193028450012
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 18,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6289438881541659,
+        "log_loss": 0.6647600195755853,
+        "brier_score": 0.23610655963420868
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.6121292272813149,
+        "log_loss": 0.6651386649112212,
+        "brier_score": 0.23669344186782837
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 40,
+      "val": {
+        "accuracy": 0.6164383561643836,
+        "roc_auc": 0.6332892499527678,
+        "log_loss": 0.6659456087496768,
+        "brier_score": 0.23646143078804016
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 36,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6172303041753259,
+        "log_loss": 0.6659790834919022,
+        "brier_score": 0.23683902621269226
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 56,
+      "val": {
+        "accuracy": 0.6164383561643836,
+        "roc_auc": 0.628188173058757,
+        "log_loss": 0.6659964942529869,
+        "brier_score": 0.23650245368480682
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 58,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6249763839032685,
+        "log_loss": 0.6662814378789201,
+        "brier_score": 0.23705589771270752
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.6155299452106556,
+        "log_loss": 0.6672649497719655,
+        "brier_score": 0.2374998927116394
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 11,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6327224636312111,
+        "log_loss": 0.667329257667204,
+        "brier_score": 0.23753394186496735
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 59,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6217645947477801,
+        "log_loss": 0.6677284494740039,
+        "brier_score": 0.23760521411895752
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 87,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6247874551294162,
+        "log_loss": 0.667734710846432,
+        "brier_score": 0.23741739988327026
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 4,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6548271301719252,
+        "log_loss": 0.6678531009281548,
+        "brier_score": 0.23746715486049652
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.629699603249575,
+        "log_loss": 0.6681707982007619,
+        "brier_score": 0.23774798214435577
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 13,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6252597770640469,
+        "log_loss": 0.6682450494466661,
+        "brier_score": 0.2379312366247177
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 32,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6155299452106555,
+        "log_loss": 0.66831401326486,
+        "brier_score": 0.23795397579669952
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 8,
+      "val": {
+        "accuracy": 0.6095890410958904,
+        "roc_auc": 0.624598526355564,
+        "log_loss": 0.6686154761637392,
+        "brier_score": 0.23793160915374756
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 62,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6228981673908937,
+        "log_loss": 0.6687823679693962,
+        "brier_score": 0.2378913164138794
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 61,
+      "val": {
+        "accuracy": 0.6095890410958904,
+        "roc_auc": 0.6329113924050633,
+        "log_loss": 0.6689664985541903,
+        "brier_score": 0.23738643527030945
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 46,
+      "val": {
+        "accuracy": 0.6301369863013698,
+        "roc_auc": 0.6225203098431891,
+        "log_loss": 0.6691347812789091,
+        "brier_score": 0.2384341061115265
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 11,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6163801246929907,
+        "log_loss": 0.669225715861874,
+        "brier_score": 0.23820647597312927
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 17,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6264878140940866,
+        "log_loss": 0.6693298707890154,
+        "brier_score": 0.23829932510852814
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6156244095975817,
+        "log_loss": 0.6694550429662948,
+        "brier_score": 0.23866373300552368
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6074060079350085,
+        "log_loss": 0.669579880962366,
+        "brier_score": 0.23863956332206726
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 35,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6155299452106556,
+        "log_loss": 0.6699806889257631,
+        "brier_score": 0.23881493508815765
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 58,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6208199508785188,
+        "log_loss": 0.6700505839435782,
+        "brier_score": 0.2381683737039566
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 24,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6174192329491782,
+        "log_loss": 0.6702812512755602,
+        "brier_score": 0.23896491527557373
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 45,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6153410164368033,
+        "log_loss": 0.6702896611644222,
+        "brier_score": 0.23881694674491882
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 61,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6111845834120536,
+        "log_loss": 0.6704750878288294,
+        "brier_score": 0.23892034590244293
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 32,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6161911959191385,
+        "log_loss": 0.6705025823471888,
+        "brier_score": 0.23896105587482452
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 57,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6160967315322123,
+        "log_loss": 0.6707495539484671,
+        "brier_score": 0.2389874905347824
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.608539580578122,
+        "log_loss": 0.6709889525329669,
+        "brier_score": 0.2393462359905243
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6128849423767241,
+        "log_loss": 0.6711788463791378,
+        "brier_score": 0.23903822898864746
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 41,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6162856603060646,
+        "log_loss": 0.6712381363099,
+        "brier_score": 0.23929813504219055
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 7,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.6390515775552617,
+        "log_loss": 0.6713598188396397,
+        "brier_score": 0.2394462674856186
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 39,
+      "val": {
+        "accuracy": 0.6027397260273972,
+        "roc_auc": 0.6125070848290195,
+        "log_loss": 0.6715122625927047,
+        "brier_score": 0.23927025496959686
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 17,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6143963725675421,
+        "log_loss": 0.6717582256938796,
+        "brier_score": 0.23947305977344513
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 11,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6194974494615529,
+        "log_loss": 0.6717838340738692,
+        "brier_score": 0.2393077164888382
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6196863782354053,
+        "log_loss": 0.6719126685325956,
+        "brier_score": 0.23956100642681122
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 43,
+      "val": {
+        "accuracy": 0.6095890410958904,
+        "roc_auc": 0.6196863782354053,
+        "log_loss": 0.6719127708194486,
+        "brier_score": 0.2395355999469757
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 4,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.622425845456263,
+        "log_loss": 0.6720383240501016,
+        "brier_score": 0.2398288995027542
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 14,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.6105233327035707,
+        "log_loss": 0.6721943095042514,
+        "brier_score": 0.2397022545337677
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 18,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6072170791611562,
+        "log_loss": 0.6724638370809792,
+        "brier_score": 0.23985175788402557
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 57,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6100510107689402,
+        "log_loss": 0.672862239738583,
+        "brier_score": 0.2399941086769104
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 42,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6147742301152466,
+        "log_loss": 0.6728726711876969,
+        "brier_score": 0.24006211757659912
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 11,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6103344039297185,
+        "log_loss": 0.6729464292746209,
+        "brier_score": 0.24009284377098083
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 35,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6117513697336103,
+        "log_loss": 0.6730915876650782,
+        "brier_score": 0.2401202768087387
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6109956546382014,
+        "log_loss": 0.6731073770042827,
+        "brier_score": 0.24010640382766724
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 28,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6123181560551672,
+        "log_loss": 0.6731797978348474,
+        "brier_score": 0.24028851091861725
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 16,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6068392216134517,
+        "log_loss": 0.6734541334022243,
+        "brier_score": 0.2402833104133606
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 45,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6072170791611563,
+        "log_loss": 0.6734802672876186,
+        "brier_score": 0.2404143512248993
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 19,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.614396372567542,
+        "log_loss": 0.673563152484167,
+        "brier_score": 0.24047279357910156
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 17,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6120347628943887,
+        "log_loss": 0.673679572790183,
+        "brier_score": 0.2405083328485489
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 13,
+      "val": {
+        "accuracy": 0.6232876712328768,
+        "roc_auc": 0.6058945777441904,
+        "log_loss": 0.6736824829187604,
+        "brier_score": 0.24024464190006256
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.6232876712328768,
+        "roc_auc": 0.6120347628943887,
+        "log_loss": 0.6736992498669496,
+        "brier_score": 0.24038931727409363
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 10,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.6138295862459853,
+        "log_loss": 0.6738018530864212,
+        "brier_score": 0.24067369103431702
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 45,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6157188739845078,
+        "log_loss": 0.6738294850472873,
+        "brier_score": 0.24044720828533173
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 14,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6160967315322124,
+        "log_loss": 0.6739831595281343,
+        "brier_score": 0.24064427614212036
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 10,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6083506518042698,
+        "log_loss": 0.6740291247624756,
+        "brier_score": 0.24049408733844757
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6063668996788211,
+        "log_loss": 0.6740870381517827,
+        "brier_score": 0.2405378222465515
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 21,
+      "val": {
+        "accuracy": 0.6301369863013698,
+        "roc_auc": 0.6116569053466843,
+        "log_loss": 0.674283302956955,
+        "brier_score": 0.240628182888031
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6021160022671453,
+        "log_loss": 0.6744635972392145,
+        "brier_score": 0.2407805621623993
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 35,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6002267145286229,
+        "log_loss": 0.6744953600859819,
+        "brier_score": 0.24085690081119537
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6049499338749291,
+        "log_loss": 0.6745167464803978,
+        "brier_score": 0.24085721373558044
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 22,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6062724352918949,
+        "log_loss": 0.6746963281867429,
+        "brier_score": 0.24095913767814636
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 14,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.6218590591347062,
+        "log_loss": 0.6747585885704253,
+        "brier_score": 0.24109843373298645
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6144908369544683,
+        "log_loss": 0.6749363026919527,
+        "brier_score": 0.24131309986114502
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 57,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.6149631588890988,
+        "log_loss": 0.6750442835339968,
+        "brier_score": 0.24074679613113403
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6161911959191386,
+        "log_loss": 0.6752646066920099,
+        "brier_score": 0.24127298593521118
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 16,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6240317400340072,
+        "log_loss": 0.6753818802725204,
+        "brier_score": 0.24118079245090485
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 8,
+      "val": {
+        "accuracy": 0.5342465753424658,
+        "roc_auc": 0.6328169280181372,
+        "log_loss": 0.6754122737682313,
+        "brier_score": 0.24133338034152985
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 23,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6031551105233327,
+        "log_loss": 0.6757272651409877,
+        "brier_score": 0.24137556552886963
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 58,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.6015492159455885,
+        "log_loss": 0.6757738546901789,
+        "brier_score": 0.24140313267707825
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 4,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6214812015870017,
+        "log_loss": 0.6759965943441916,
+        "brier_score": 0.24156376719474792
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 20,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6036274324579634,
+        "log_loss": 0.6760669844708761,
+        "brier_score": 0.24154725670814514
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 12,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6018326091063669,
+        "log_loss": 0.6761073471543728,
+        "brier_score": 0.24169404804706573
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 31,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6045720763272247,
+        "log_loss": 0.6761366181017782,
+        "brier_score": 0.24173621833324432
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 35,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.6028717173625543,
+        "log_loss": 0.6764830103336614,
+        "brier_score": 0.24181868135929108
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 18,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.6043831475533723,
+        "log_loss": 0.6766251579767343,
+        "brier_score": 0.24186617136001587
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 1,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 24,
+      "val": {
+        "accuracy": 0.541095890410959,
+        "roc_auc": 0.606272435291895,
+        "log_loss": 0.6766877962069948,
+        "brier_score": 0.24199870228767395
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.5994709994332137,
+        "log_loss": 0.6769122731418175,
+        "brier_score": 0.2419808804988861
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 41,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.5951256376346118,
+        "log_loss": 0.677273637781303,
+        "brier_score": 0.24224215745925903
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 52,
+      "val": {
+        "accuracy": 0.5821917808219178,
+        "roc_auc": 0.5994709994332137,
+        "log_loss": 0.6773012897835018,
+        "brier_score": 0.2422720491886139
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 19,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.6001322501416966,
+        "log_loss": 0.6773800412845433,
+        "brier_score": 0.24224215745925903
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 9,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.587946344228226,
+        "log_loss": 0.6775459576258192,
+        "brier_score": 0.2423589825630188
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 32,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.6000377857547704,
+        "log_loss": 0.6777025537790782,
+        "brier_score": 0.24243031442165375
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 37,
+      "val": {
+        "accuracy": 0.6232876712328768,
+        "roc_auc": 0.5975817116946911,
+        "log_loss": 0.6781410844808613,
+        "brier_score": 0.2425764948129654
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 6,
+      "val": {
+        "accuracy": 0.5616438356164384,
+        "roc_auc": 0.5894577744190439,
+        "log_loss": 0.6786619508827644,
+        "brier_score": 0.24296726286411285
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 33,
+      "val": {
+        "accuracy": 0.6095890410958904,
+        "roc_auc": 0.6007935008501796,
+        "log_loss": 0.6787922847724885,
+        "brier_score": 0.24281379580497742
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 3,
+      "val": {
+        "accuracy": 0.5547945205479452,
+        "roc_auc": 0.6059890421311166,
+        "log_loss": 0.6789734549987334,
+        "brier_score": 0.24297690391540527
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 50,
+      "val": {
+        "accuracy": 0.5547945205479452,
+        "roc_auc": 0.5904024182883053,
+        "log_loss": 0.6789757004859407,
+        "brier_score": 0.2431105524301529
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 38,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.5932363498960892,
+        "log_loss": 0.6791786800734448,
+        "brier_score": 0.2431316077709198
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 9,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.5846400906858115,
+        "log_loss": 0.6801739634250779,
+        "brier_score": 0.24345873296260834
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.1,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 3,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.6058001133572644,
+        "log_loss": 0.6803178102360452,
+        "brier_score": 0.2436981201171875
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 22,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.5889854524844134,
+        "log_loss": 0.6805182091615876,
+        "brier_score": 0.24379393458366394
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 22,
+      "val": {
+        "accuracy": 0.589041095890411,
+        "roc_auc": 0.5889854524844135,
+        "log_loss": 0.6812359633863302,
+        "brier_score": 0.24412398040294647
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 14,
+      "val": {
+        "accuracy": 0.547945205479452,
+        "roc_auc": 0.5768940109578689,
+        "log_loss": 0.6814259464117249,
+        "brier_score": 0.2442556917667389
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.05,
+        "min_child_weight": 3,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 17,
+      "val": {
+        "accuracy": 0.5958904109589042,
+        "roc_auc": 0.5932363498960893,
+        "log_loss": 0.6814868371808759,
+        "brier_score": 0.2442375123500824
+      }
+    },
+    {
+      "params": {
+        "max_depth": 3,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 29,
+      "val": {
+        "accuracy": 0.5684931506849316,
+        "roc_auc": 0.5860570564897033,
+        "log_loss": 0.6815395871013357,
+        "brier_score": 0.24425114691257477
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.05,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 20,
+      "val": {
+        "accuracy": 0.541095890410959,
+        "roc_auc": 0.5922917060268279,
+        "log_loss": 0.6824642114384138,
+        "brier_score": 0.24489052593708038
+      }
+    },
+    {
+      "params": {
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 18,
+      "val": {
+        "accuracy": 0.5753424657534246,
+        "roc_auc": 0.5746268656716419,
+        "log_loss": 0.6827168674728787,
+        "brier_score": 0.2448437511920929
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 1,
+        "subsample": 0.8,
+        "colsample_bytree": 1.0
+      },
+      "n_estimators_used": 15,
+      "val": {
+        "accuracy": 0.5547945205479452,
+        "roc_auc": 0.5972038541469866,
+        "log_loss": 0.6829474021595078,
+        "brier_score": 0.24485445022583008
+      }
+    },
+    {
+      "params": {
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "min_child_weight": 5,
+        "subsample": 1.0,
+        "colsample_bytree": 0.8
+      },
+      "n_estimators_used": 5,
+      "val": {
+        "accuracy": 0.5342465753424658,
+        "roc_auc": 0.554978273191007,
+        "log_loss": 0.6844373602048636,
+        "brier_score": 0.24577869474887848
+      }
+    }
+  ],
+  "best": {
+    "params": {
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8
+    },
+    "n_estimators_used": 45,
+    "val": {
+      "accuracy": 0.6027397260273972,
+      "roc_auc": 0.6368788966559608,
+      "log_loss": 0.6588940067655893,
+      "brier_score": 0.23327620327472687
+    }
+  },
+  "best_test_metrics": {
+    "accuracy": 0.6830601092896175,
+    "roc_auc": 0.7419511014282257,
+    "log_loss": 0.5983861110928446,
+    "brier_score": 0.20551162958145142
+  }
+}

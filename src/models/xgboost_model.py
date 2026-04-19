@@ -10,27 +10,22 @@ logger = get_logger(__name__)
 
 
 class XGBoostModel(BaseModel):
-    """
-    XGBoost classifier (expected best performer for tabular data).
-
-    TODO: Load hyperparameters from config['models']['xgboost']
-    """
+    """XGBoost classifier (expected best performer for tabular data)."""
 
     def __init__(self, config_path="config/config.yaml"):
         super().__init__(model_name="xgboost", config_path=config_path)
 
-        # TODO: Extract from config
-        # For now, use reasonable defaults
+        params = self.config.get("models", {}).get("xgboost", {})
         self.model = xgb.XGBClassifier(
-            n_estimators=200,
-            learning_rate=0.1,
-            max_depth=6,
-            min_child_weight=1,
-            subsample=0.8,
-            colsample_bytree=0.8,
+            n_estimators=params.get("n_estimators", 200),
+            learning_rate=params.get("learning_rate", 0.1),
+            max_depth=params.get("max_depth", 6),
+            min_child_weight=params.get("min_child_weight", 1),
+            subsample=params.get("subsample", 0.8),
+            colsample_bytree=params.get("colsample_bytree", 0.8),
             random_state=42,
             n_jobs=-1,
-            verbosity=0
+            verbosity=0,
         )
 
     def fit(self, X, y):

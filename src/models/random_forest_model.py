@@ -10,24 +10,19 @@ logger = get_logger(__name__)
 
 
 class RandomForestModel(BaseModel):
-    """
-    Random Forest classifier.
-
-    TODO: Load hyperparameters from config['models']['random_forest']
-    """
+    """Random Forest classifier."""
 
     def __init__(self, config_path="config/config.yaml"):
         super().__init__(model_name="random_forest", config_path=config_path)
 
-        # TODO: Extract from config
-        # For now, use reasonable defaults
+        params = self.config.get("models", {}).get("random_forest", {})
         self.model = RandomForestClassifier(
-            n_estimators=100,
-            max_depth=15,
-            min_samples_split=10,
-            min_samples_leaf=4,
+            n_estimators=params.get("n_estimators", 100),
+            max_depth=params.get("max_depth", 15),
+            min_samples_split=params.get("min_samples_split", 10),
+            min_samples_leaf=params.get("min_samples_leaf", 4),
             random_state=42,
-            n_jobs=-1
+            n_jobs=-1,
         )
 
     def fit(self, X, y):

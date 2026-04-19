@@ -20,10 +20,10 @@ models:
     min_samples_leaf: 4
 
   xgboost:
-    n_estimators: 200
-    learning_rate: 0.1
+    n_estimators: 45
+    learning_rate: 0.05
     max_depth: 6
-    min_child_weight: 1
+    min_child_weight: 5
     subsample: 0.8
     colsample_bytree: 0.8
 

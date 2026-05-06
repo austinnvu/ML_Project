@@ -202,31 +202,47 @@ $10\cdot(1/p^{\text{Kalshi}}) - 10$; a wrong bet loses the stake.
 Return on investment is reported as
 $\text{ROI} = \text{net P\&L} / \text{total wagered}$.
 
+\textbf{Clean evaluation subset.}
+As noted in Section~\ref{sec:dataset}, only $150$ of the $177$ test
+games carry a candle-derived pre-tipoff price; the remaining $27$
+fall back to a most-recent quote that can be pinned near \$0 or \$1
+in low-liquidity markets, which produces unrealistically large
+simulated payouts on the few long-tail bets that resolve correctly.
+To prevent this measurement artefact from dominating the headline
+numbers, all ROI results in this subsection are computed on the
+\emph{clean subset} of $n=150$ games for which a pre-game candle was
+available. Numbers reported on the full $177$-game test set are
+qualitatively similar but inflated in magnitude.
+
 \textbf{Threshold sweep.}
 Table~\ref{tab:sweep} reports XGBoost ROI across a range of edge
-thresholds. ROI degrades monotonically as the threshold tightens:
-the strongest disagreements between model and market are precisely
-the bets that lose the most money. This is a strong signal of
-\emph{market efficiency} on Kalshi NBA contracts within our test
-window: the cases where our model deviates most from market consensus
-are not mispricings to be exploited, but cases where the market
-incorporates information our feature set does not capture. Figure~1
-visualizes this trend together with bet count.
+thresholds on the clean subset. The trend is unambiguous: tightening
+$\tau$ does not yield a profitable subset of high-confidence bets.
+ROI is between $-28\%$ and $-36\%$ across every threshold tested, and
+the headline strategy at $\tau=0.05$ loses $\$428$ out of $\$1{,}190$
+wagered. The strongest disagreements between model and market are
+precisely the bets that lose the most money in absolute terms,
+consistent with \emph{market efficiency} on Kalshi NBA moneyline
+contracts within our test window: cases where our model deviates from
+market consensus are not mispricings to be exploited, but cases where
+the market incorporates information our feature set does not capture.
+Figure~\ref{fig:roi-threshold} visualizes this together with bet count.
 
 \begin{table}[h]
 \centering
-\caption{XGBoost ROI vs.\ edge threshold $\tau$ on the test set.}
+\caption{XGBoost ROI vs.\ edge threshold $\tau$ on the clean subset
+($n=150$).}
 \label{tab:sweep}
 \begin{tabular}{cccr}
 \toprule
 $\tau$ & \textbf{Bets} & \textbf{Wagered (\$)} & \textbf{ROI (\%)} \\
 \midrule
-0.00 & 177 & 1{,}770 & $-39.5$ \\
-0.02 & 164 & 1{,}640 & $-41.2$ \\
-0.05 & 146 & 1{,}460 & $-47.8$ \\
-0.08 & 132 & 1{,}320 & $-47.6$ \\
-0.10 & 118 & 1{,}180 & $-48.1$ \\
-0.15 &  91 &   910   & $-53.1$ \\
+0.00 & 150 & 1{,}500 & $-28.6$ \\
+0.02 & 137 & 1{,}370 & $-29.6$ \\
+0.05 & 119 & 1{,}190 & $-36.0$ \\
+0.08 & 105 & 1{,}050 & $-34.1$ \\
+0.10 &  91 &   910   & $-32.7$ \\
+0.15 &  65 &   650   & $-34.4$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -235,10 +251,9 @@ $\tau$ & \textbf{Bets} & \textbf{Wagered (\$)} & \textbf{ROI (\%)} \\
 \centering
 \includegraphics[width=0.85\columnwidth]{figures/roi_vs_threshold.png}
 \caption{XGBoost ROI (left axis) and bet count (right axis) as a
-function of the edge threshold $\tau$. Tighter thresholds select
-bets where the model disagrees more strongly with the market; ROI
-falls monotonically, indicating those disagreements are
-systematically wrong.}
+function of the edge threshold $\tau$ on the clean subset. ROI is
+negative and roughly flat in $\tau$, indicating no profitable
+sub-population of high-confidence model picks.}
 \label{fig:roi-threshold}
 \end{figure}
 
@@ -247,34 +262,34 @@ At our default threshold $\tau = 0.05$, we compare each learned model
 against the two baselines specified in the proposal: a \emph{naive}
 strategy that always bets the home team, and a \emph{kalshi-favorite}
 strategy that bets whichever side Kalshi prices above $0.5$ (the
-market's own pick). Results are reported in
+market's own pick). Results on the clean subset are reported in
 Table~\ref{tab:strategy}.
 
 \begin{table}[h]
 \centering
-\caption{Strategy comparison on the test set, \$10 flat stake,
-$\tau=0.05$ for learned models. The kalshi-favorite baseline is the
-only strategy with positive ROI.}
+\caption{Strategy comparison on the clean subset ($n=150$), \$10 flat
+stake, $\tau=0.05$ for learned models. The kalshi-favorite baseline
+is the only strategy with positive ROI.}
 \label{tab:strategy}
 \begin{tabular}{lrr}
 \toprule
 \textbf{Strategy} & \textbf{Bets} & \textbf{ROI (\%)} \\
 \midrule
-Kalshi-favorite (market pick) & 177 & $+5.4$  \\
-Always-home (naive)           & 177 & $-10.7$ \\
-Logistic Regression           & 148 & $-33.6$ \\
-Random Forest                 & 147 & $-33.3$ \\
-XGBoost                       & 146 & $-47.8$ \\
+Kalshi-favorite (market pick) & 150 & $+6.3$  \\
+Always-home (naive)           & 150 & $-2.7$  \\
+Logistic Regression           & 121 & $-18.8$ \\
+Random Forest                 & 120 & $-18.3$ \\
+XGBoost                       & 119 & $-36.0$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Every learned model loses money over the test window, while
 mechanically following Kalshi's own implied favorite returns
-$+5.4\%$. Two interpretations are mutually compatible. First, Kalshi
+$+6.3\%$. Two interpretations are mutually compatible. First, Kalshi
 prices are well-calibrated with a small bias toward favorites that a
-disciplined bettor can capture without any modeling at all, consistent
-with the prediction-market literature surveyed in
+disciplined bettor can capture without any modeling at all,
+consistent with the prediction-market literature surveyed in
 Section~2~\cite{Wolfers2004}. Second, our feature set is genuinely
 weaker than the information embedded in the contract prices: rolling
 team statistics ignore injuries, lineup changes, late-breaking news,
@@ -304,13 +319,71 @@ indicating better calibration than the learned model.}
 \label{fig:calibration}
 \end{figure}
 
+\subsection{Exploratory Observation: Reversed-Edge Strategy}
+\label{sec:reverse}
+
+The unambiguously negative ROI of the standard edge strategy
+(Section~6.3) suggests an inverted experiment: instead of betting on
+the side where the model's probability \emph{exceeds} the market, bet
+on the side where it \emph{falls short}. Concretely, when
+$\Delta_{\text{home}} > \tau$ we now place the stake on the away side
+at price $1 - p^{\text{Kalshi}}_{\text{home}}$, and symmetrically for
+$\Delta_{\text{away}}$. Identical bet count and stake schedule, with
+the side-selection rule reversed.
+
+Table~\ref{tab:reverse} reports the results for XGBoost (the model
+with the largest model–market disagreement) across the same threshold
+grid. Every threshold yields a positive simulated ROI; the strategy
+returns $+12.0\%$ at $\tau=0$ and remains profitable through
+$\tau=0.15$. At the headline threshold $\tau=0.05$, the inverted
+strategy returns $+9.0\%$ on $\$1{,}190$ wagered—roughly 2.7 percentage
+points above the kalshi-favorite baseline on the same set of games.
+
+\begin{table}[h]
+\centering
+\caption{Reversed-edge strategy (XGBoost), \$10 flat stake, clean
+subset. The strategy bets \emph{against} the model's directional
+prediction whenever $|\Delta| > \tau$.}
+\label{tab:reverse}
+\begin{tabular}{cccr}
+\toprule
+$\tau$ & \textbf{Bets} & \textbf{Wagered (\$)} & \textbf{ROI (\%)} \\
+\midrule
+0.00 & 150 & 1{,}500 & $+12.0$ \\
+0.02 & 137 & 1{,}370 & $+11.1$ \\
+0.05 & 119 & 1{,}190 & $+9.0$  \\
+0.08 & 105 & 1{,}050 & $+9.3$  \\
+0.10 &  91 &   910   & $+4.4$  \\
+0.15 &  65 &   650   & $+1.6$  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We flag this as an \emph{exploratory} observation rather than a
+deployable strategy for three reasons. First, the test window contains
+only $n=150$ priced games over a 31-day stretch in 2026; the
+$\sim$2.7-point lift over kalshi-favorite is plausibly within sampling
+noise at that scale, and the strategy's apparent edge could vanish on
+an out-of-sample test set. Second, treating systematic
+anti-calibration as a profit signal is methodologically suspicious: it
+asks the reader to trust that our model is consistently \emph{wrong}
+in a stable direction, which is harder to justify a priori than a
+correctly-signed signal of comparable strength. Third, the same
+inversion run on Logistic and Random Forest yields only $+0.7\%$ and
+$+1.4\%$ respectively at $\tau=0.05$, so the effect appears specific
+to XGBoost rather than reflecting a property shared by all our
+classifiers. We present the result as a hypothesis worth replicating
+across a larger test horizon and a richer feature set before drawing
+deployment-grade conclusions.
+
 \textbf{Limitations.}
-Two caveats temper the ROI numbers above. First, only $150$ of the
-$177$ test-set games carry a candle-derived pre-tipoff price; the
-remaining $27$ fall back to a most-recent quote that can be pinned
-near \$0 or \$1 in low-liquidity markets, which inflates payouts on
-the small fraction of long-tail bets that resolve correctly. Second,
-the test window covers a single 31-day stretch in 2026; ROI
-estimates carry meaningful sampling variance at $n=177$ games, and
-this evaluation should be repeated across a longer horizon before
-treating the negative-ROI conclusions as definitive.
+Two caveats temper the ROI numbers above. First, the headline
+strategy comparison is computed on the clean subset of $150$ games;
+the $27$ excluded games carry fallback quotes pinned near \$0 or \$1
+that produce measurement noise rather than meaningful trading signal,
+and re-introducing them inflates magnitudes without changing
+directions (every learned model still loses money). Second, the test
+window covers a single 31-day stretch in 2026; ROI estimates carry
+meaningful sampling variance at $n=150$ games, and this evaluation
+should be repeated across a longer horizon before treating the
+negative-ROI conclusions as definitive.

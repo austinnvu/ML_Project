@@ -13,7 +13,7 @@ import os
 import re
 import time
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -36,7 +36,8 @@ BASE_URL = os.getenv(
 ).rstrip("/")
 
 DEFAULT_TIMEOUT = int(os.getenv("KALSHI_TIMEOUT_SECONDS", "30"))
-DEFAULT_SLEEP_SECONDS = float(os.getenv("KALSHI_SLEEP_SECONDS", "0.15"))
+DEFAULT_SLEEP_SECONDS = float(os.getenv("KALSHI_SLEEP_SECONDS", "0.35"))
+DEFAULT_RATE_LIMIT_BACKOFF = float(os.getenv("KALSHI_RATE_LIMIT_BACKOFF_SECONDS", "5.0"))
 KALSHI_API_KEY_ID = os.getenv("KALSHI_API_KEY_ID", "").strip()
 KALSHI_PRIVATE_KEY_PATH = os.getenv("KALSHI_PRIVATE_KEY_PATH", "").strip()
 
@@ -50,6 +51,8 @@ MONEYLINE_EXCLUDE_TERMS = {
     "spread",
     "margin",
 }
+
+MONEYLINE_TICKER_PREFIXES: Tuple[str, ...] = ("KXNBAGAME",)
 
 TEAM_ALIASES: Dict[str, Sequence[str]] = {
     "ATL": ("atlanta hawks", "hawks", "atlanta"),
@@ -179,6 +182,10 @@ def _extract_two_teams(record: dict) -> List[str]:
 
 
 def _infer_market_type(record: dict) -> str:
+    ticker = str(record.get("ticker") or "")
+    if not ticker.startswith(MONEYLINE_TICKER_PREFIXES):
+        return "non_moneyline"
+
     text = " ".join(
         filter(
             None,
@@ -345,16 +352,29 @@ class KalshiClient:
 
     def _get(self, path: str, params: Optional[dict] = None) -> dict:
         url = f"{self.base_url}{path}"
-        headers = self._build_auth_headers("GET", path)
-        response = self.session.get(
-            url,
-            params=params,
-            headers=headers or None,
-            timeout=self.timeout,
-        )
+        # One automatic retry on 429 with exponential backoff. Other status
+        # codes (400/404) bubble up so callers can decide to skip.
+        backoff = DEFAULT_RATE_LIMIT_BACKOFF
+        for attempt in range(2):
+            headers = self._build_auth_headers("GET", path)
+            response = self.session.get(
+                url,
+                params=params,
+                headers=headers or None,
+                timeout=self.timeout,
+            )
+            if response.status_code == 429 and attempt == 0:
+                logger.warning(
+                    f"Kalshi rate limit hit on {path}; sleeping {backoff:.1f}s before retry"
+                )
+                time.sleep(backoff)
+                backoff *= 2
+                continue
+            response.raise_for_status()
+            if self.sleep_seconds:
+                time.sleep(self.sleep_seconds)
+            return response.json()
         response.raise_for_status()
-        if self.sleep_seconds:
-            time.sleep(self.sleep_seconds)
         return response.json()
 
     def _paginate(self, path: str, root_key: str, params: Optional[dict] = None) -> List[dict]:
@@ -399,12 +419,45 @@ class KalshiClient:
 
     def get_event_markets(self, event_ticker: str, historical: bool = False) -> List[dict]:
         path = "/historical/markets" if historical else "/markets"
-        params = {
+        params: Dict[str, object] = {
             "event_ticker": event_ticker,
             "limit": 1000,
-            "mve_filter": "exclude",
         }
+        # /markets accepts (and benefits from) mve_filter=exclude to suppress
+        # the unused multi-vote-event partitions. /historical/markets rejects
+        # it as mutually exclusive with event_ticker -- omit it there.
+        if not historical:
+            params["mve_filter"] = "exclude"
         return self._paginate(path, "markets", params=params)
+
+    def get_candlesticks(
+        self,
+        market_ticker: str,
+        start_ts: int,
+        end_ts: int,
+        period_interval: int = 5,
+    ) -> List[dict]:
+        """Fetch OHLC candlesticks for a single Kalshi market.
+
+        period_interval is in minutes (minimum 1). Returns the list of
+        candlestick dicts for the requested ticker, or [] if Kalshi has none.
+        """
+        payload = self._get(
+            "/markets/candlesticks",
+            params={
+                "market_tickers": market_ticker,
+                "start_ts": int(start_ts),
+                "end_ts": int(end_ts),
+                "period_interval": int(period_interval),
+            },
+        )
+        markets = payload.get("markets") or []
+        if not markets:
+            return []
+        return markets[0].get("candlesticks") or []
+
+
+NBA_FULL_GAME_SERIES = ("KXNBAGAME",)
 
 
 def discover_nba_series_tickers(
@@ -413,41 +466,7 @@ def discover_nba_series_tickers(
 ) -> List[str]:
     if explicit_series_tickers:
         return [ticker.strip() for ticker in explicit_series_tickers if ticker.strip()]
-
-    series_rows = client.get_series(category="Sports")
-    nba_series = []
-
-    for row in series_rows:
-        raw_tags = row.get("tags")
-        if isinstance(raw_tags, (list, tuple, set)):
-            tags_text = " ".join(str(tag) for tag in raw_tags if tag is not None)
-        elif raw_tags is None:
-            tags_text = ""
-        else:
-            tags_text = str(raw_tags)
-
-        search_blob = " ".join(
-            filter(
-                None,
-                [
-                    row.get("ticker"),
-                    row.get("title"),
-                    tags_text,
-                ],
-            )
-        )
-        normalized = _normalize_text(search_blob)
-        if "nba" in normalized or "basketball" in normalized:
-            nba_series.append(row["ticker"])
-
-    nba_series = sorted(set(nba_series))
-    if not nba_series:
-        raise RuntimeError(
-            "Could not automatically discover Kalshi NBA series tickers. "
-            "Pass --series-tickers explicitly."
-        )
-
-    return nba_series
+    return list(NBA_FULL_GAME_SERIES)
 
 
 def _event_date_from_row(event_row: dict) -> Optional[pd.Timestamp]:
@@ -460,6 +479,103 @@ def _event_date_from_row(event_row: dict) -> Optional[pd.Timestamp]:
             continue
         return timestamp.tz_convert("America/New_York").normalize().tz_localize(None)
     return None
+
+
+def _select_pregame_candle(candles: Sequence[dict]) -> Optional[dict]:
+    """Pick the latest candle in a window with non-null yes_bid/yes_ask close prices.
+
+    Filters out candles where Kalshi reports no quote (close_dollars is None),
+    which happens for periods with no liquidity. Volume is intentionally NOT
+    required to be > 0 — quiet pre-game minutes can have non-zero standing
+    quotes with zero traded volume, and those are still meaningful prices.
+    """
+    qualifying: List[dict] = []
+    for candle in candles:
+        bid = (candle.get("yes_bid") or {}).get("close_dollars")
+        ask = (candle.get("yes_ask") or {}).get("close_dollars")
+        if bid is None or ask is None:
+            continue
+        try:
+            float(bid)
+            float(ask)
+        except (TypeError, ValueError):
+            continue
+        qualifying.append(candle)
+    if not qualifying:
+        return None
+    return max(qualifying, key=lambda c: int(c.get("end_period_ts") or 0))
+
+
+def fetch_pregame_yes_prices(
+    client: KalshiClient,
+    matched_markets: pd.DataFrame,
+    minutes_before_tipoff: int = 5,
+    typical_game_minutes: int = 165,
+    sample_window_hours: int = 3,
+    period_interval: int = 1,
+) -> Tuple[Dict[str, float], Dict[str, str]]:
+    """Pull pre-tipoff YES prices from Kalshi candlesticks for matched markets.
+
+    Kalshi's market `close_time` is when trading stops (≈ end of game), not
+    tip-off. We back off by `typical_game_minutes` (NBA games average ~2h45m
+    including timeouts) to estimate tipoff, then pull candles in
+    [tipoff - sample_window_hours, tipoff - minutes_before_tipoff] and take
+    the most recent candle with a valid yes_bid/yes_ask quote. The midpoint
+    of that quote becomes the pre-game YES price.
+
+    Returns (price_by_ticker, sampled_ts_by_ticker). Tickers without a
+    qualifying pre-game candle are simply absent from both dicts; downstream
+    code falls back to the existing settled price.
+    """
+    pregame_prices: Dict[str, float] = {}
+    sampled_timestamps: Dict[str, str] = {}
+
+    relevant = matched_markets.dropna(subset=["kalshi_market_ticker", "kalshi_close_time"])
+    total = len(relevant)
+    logger.info(f"Fetching pre-game candlesticks for {total} markets")
+
+    for position, row in enumerate(relevant.itertuples(index=False), start=1):
+        ticker = getattr(row, "kalshi_market_ticker")
+        close_str = getattr(row, "kalshi_close_time")
+
+        close_ts = pd.to_datetime(close_str, utc=True, errors="coerce")
+        if pd.isna(close_ts):
+            continue
+
+        close_epoch = int(close_ts.timestamp())
+        tipoff_epoch = close_epoch - typical_game_minutes * 60
+        start_ts = tipoff_epoch - sample_window_hours * 3600
+        end_ts = tipoff_epoch - minutes_before_tipoff * 60
+
+        try:
+            candles = client.get_candlesticks(
+                ticker, start_ts, end_ts, period_interval=period_interval
+            )
+        except requests.HTTPError as exc:
+            logger.warning(f"Kalshi candlestick fetch failed for {ticker}: {exc}")
+            continue
+
+        chosen = _select_pregame_candle(candles)
+        if chosen is None:
+            continue
+
+        bid = float(chosen["yes_bid"]["close_dollars"])
+        ask = float(chosen["yes_ask"]["close_dollars"])
+        pregame_prices[ticker] = round((bid + ask) / 2.0, 4)
+        sampled_timestamps[ticker] = pd.Timestamp(
+            int(chosen["end_period_ts"]), unit="s", tz="UTC"
+        ).isoformat()
+
+        if position % 50 == 0:
+            logger.info(
+                f"  pre-game candlesticks: {position}/{total} processed, "
+                f"{len(pregame_prices)} priced"
+            )
+
+    logger.info(
+        f"Pre-game candlestick fetch complete: {len(pregame_prices)}/{total} markets priced"
+    )
+    return pregame_prices, sampled_timestamps
 
 
 def collect_nba_candidate_markets(
@@ -522,12 +638,32 @@ def collect_nba_candidate_markets(
                 continue
 
             use_historical = bool(cutoff_date is not None and event_date is not None and event_date < cutoff_date)
-            markets = client.get_event_markets(event_ticker, historical=use_historical)
+            primary_status: Optional[int] = None
+            try:
+                markets = client.get_event_markets(event_ticker, historical=use_historical)
+            except requests.HTTPError as exc:
+                primary_status = getattr(exc.response, "status_code", None)
+                logger.warning(
+                    f"Kalshi market fetch failed for event {event_ticker} "
+                    f"(historical={use_historical}): {exc}"
+                )
+                markets = []
             source = "historical" if use_historical else "live"
 
-            if not markets:
-                markets = client.get_event_markets(event_ticker, historical=not use_historical)
-                source = "historical" if source == "live" else "live"
+            # Only retry on the alternate endpoint when the primary returned
+            # an empty list (event genuinely lives in the other archive).
+            # 400/404 mean the event isn't there at all -- skip to avoid
+            # doubling request load and triggering 429s.
+            if not markets and primary_status not in (400, 404):
+                try:
+                    markets = client.get_event_markets(event_ticker, historical=not use_historical)
+                    source = "historical" if source == "live" else "live"
+                except requests.HTTPError as exc:
+                    logger.warning(
+                        f"Kalshi market fetch failed for event {event_ticker} "
+                        f"on alternate endpoint: {exc}; skipping"
+                    )
+                    markets = []
 
             seen_event_tickers.add(event_ticker)
 
@@ -545,9 +681,16 @@ def collect_nba_candidate_markets(
 def build_kalshi_game_prices(
     nba_df: pd.DataFrame,
     candidate_markets: Sequence[dict],
+    client: Optional[KalshiClient] = None,
+    fetch_pregame: bool = True,
 ) -> pd.DataFrame:
     """
     Convert raw Kalshi market payloads into one matched moneyline price row per NBA game.
+
+    When `fetch_pregame=True` and a `client` is provided, the matched markets are
+    augmented with pre-tipoff YES prices pulled from the candlesticks endpoint,
+    and `kalshi_price_home_win` is recomputed using those pre-game prices when
+    available (falling back to the settled snapshot price otherwise).
     """
 
     market_rows = []
@@ -603,6 +746,8 @@ def build_kalshi_game_prices(
                 "kalshi_market_status",
                 "kalshi_market_source",
                 "kalshi_yes_price",
+                "kalshi_yes_price_pregame",
+                "kalshi_pregame_sampled_ts",
                 "kalshi_no_price",
                 "kalshi_last_price",
                 "kalshi_price_home_win",
@@ -655,6 +800,38 @@ def build_kalshi_game_prices(
     deduped = merged.drop_duplicates(
         subset=["GAME_DATE", "home_TEAM_ABBREVIATION", "away_TEAM_ABBREVIATION"],
         keep="first",
+    ).reset_index(drop=True)
+
+    deduped["kalshi_yes_price_pregame"] = pd.NA
+    deduped["kalshi_pregame_sampled_ts"] = pd.NA
+
+    if fetch_pregame and client is not None:
+        pregame_prices, sampled_ts = fetch_pregame_yes_prices(client, deduped)
+        if pregame_prices:
+            deduped["kalshi_yes_price_pregame"] = (
+                deduped["kalshi_market_ticker"].map(pregame_prices)
+            )
+            deduped["kalshi_pregame_sampled_ts"] = (
+                deduped["kalshi_market_ticker"].map(sampled_ts)
+            )
+
+    def compute_home_win_price_with_pregame(row: pd.Series) -> Optional[float]:
+        yes_team = row.get("kalshi_yes_team")
+        if not yes_team:
+            return None
+        pregame_yes = row.get("kalshi_yes_price_pregame")
+        settled_yes = row.get("kalshi_yes_price")
+        chosen_yes = pregame_yes if pd.notna(pregame_yes) else settled_yes
+        if pd.isna(chosen_yes):
+            return None
+        if yes_team == row["home_TEAM_ABBREVIATION"]:
+            return float(chosen_yes)
+        if yes_team == row["away_TEAM_ABBREVIATION"]:
+            return round(1.0 - float(chosen_yes), 4)
+        return None
+
+    deduped["kalshi_price_home_win"] = deduped.apply(
+        compute_home_win_price_with_pregame, axis=1
     )
 
     output_columns = [
@@ -668,6 +845,8 @@ def build_kalshi_game_prices(
         "kalshi_market_status",
         "kalshi_market_source",
         "kalshi_yes_price",
+        "kalshi_yes_price_pregame",
+        "kalshi_pregame_sampled_ts",
         "kalshi_no_price",
         "kalshi_last_price",
         "kalshi_price_home_win",

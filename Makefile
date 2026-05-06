@@ -29,7 +29,7 @@ train:
 	python scripts/train.py
 
 backtest:
-	python scripts/backtest.py
+	python scripts/backtest.py --model xgboost --threshold-sweep --baselines
 
 test:
 	pytest tests/ -v

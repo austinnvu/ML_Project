@@ -48,6 +48,11 @@ def parse_args() -> argparse.Namespace:
         default="",
         help="Optional comma-separated Kalshi series tickers to use instead of auto-discovery",
     )
+    parser.add_argument(
+        "--skip-pregame",
+        action="store_true",
+        help="Skip the candlesticks pre-game price fetch (faster, but kalshi_price_home_win will reflect settled prices)",
+    )
     return parser.parse_args()
 
 
@@ -73,7 +78,12 @@ def main() -> None:
     )
 
     logger.info("Matching Kalshi markets back to NBA games")
-    kalshi_prices_df = build_kalshi_game_prices(nba_df=nba_df, candidate_markets=candidate_markets)
+    kalshi_prices_df = build_kalshi_game_prices(
+        nba_df=nba_df,
+        candidate_markets=candidate_markets,
+        client=client,
+        fetch_pregame=not args.skip_pregame,
+    )
 
     output_dir = os.path.dirname(args.output)
     if output_dir:

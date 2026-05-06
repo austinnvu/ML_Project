@@ -20,8 +20,8 @@ def test_build_kalshi_game_prices_maps_yes_price_to_home_team():
 
     candidate_markets = [
         {
-            "ticker": "KXNBA-BOSMIL-20241210",
-            "event_ticker": "KXNBA-BOSMIL",
+            "ticker": "KXNBAGAME-241210BOSMIL-20241210",
+            "event_ticker": "KXNBAGAME-241210BOSMIL",
             "title": "Will the Boston Celtics beat the Milwaukee Bucks?",
             "subtitle": "Boston Celtics vs Milwaukee Bucks",
             "yes_sub_title": "Boston Celtics",
@@ -38,7 +38,7 @@ def test_build_kalshi_game_prices_maps_yes_price_to_home_team():
     result = build_kalshi_game_prices(nba_df, candidate_markets)
 
     assert len(result) == 1
-    assert result.loc[0, "kalshi_market_ticker"] == "KXNBA-BOSMIL-20241210"
+    assert result.loc[0, "kalshi_market_ticker"] == "KXNBAGAME-241210BOSMIL-20241210"
     assert result.loc[0, "kalshi_yes_team"] == "BOS"
     assert result.loc[0, "kalshi_price_home_win"] == 0.64
 
@@ -56,8 +56,8 @@ def test_build_kalshi_game_prices_flips_yes_price_when_yes_team_is_away():
 
     candidate_markets = [
         {
-            "ticker": "KXNBA-MILBOS-20241210",
-            "event_ticker": "KXNBA-MILBOS",
+            "ticker": "KXNBAGAME-241210MILBOS-20241210",
+            "event_ticker": "KXNBAGAME-241210MILBOS",
             "title": "Will the Milwaukee Bucks beat the Boston Celtics?",
             "subtitle": "Milwaukee Bucks vs Boston Celtics",
             "yes_sub_title": "Milwaukee Bucks",
